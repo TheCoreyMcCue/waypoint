@@ -23,11 +23,20 @@ app.set('views', path.join(__dirname, 'views'));
 app.get('/', (req, res) => {
     res.render('home');
 });
-app.get('/makeairport', async (req, res) => {
+app.post('/makeairport', async (req, res) => {
     const portOne = new Airport({ name: 'Thun Field', description: 'Pierce County Airport' });
     await portOne.save();
     res.send(portOne);
-})
+});
+
+app.get('/airports', async(req, res) => {
+   const airports =  await Airport.find({});
+   res.render('airports/index', { airports })
+});
+
+app.get('/airports/:id', async (req, res) => {
+    res.render('airports/show')
+});
 
 app.listen(3000, () => {
     console.log('port 3000 baby!');
