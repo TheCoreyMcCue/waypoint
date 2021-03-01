@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>All Airports!!</h1>
+    <p><a href="/airports/new">Add Airport</a></p>
     <ul>
         <% for (let airport of airports) { %>
             <li><a href="/airports/<%= airport._id %>"><%= airport.name %></a></li>

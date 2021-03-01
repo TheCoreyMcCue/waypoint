@@ -20,6 +20,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/', (req, res) => {
     res.render('home');
 });
@@ -33,6 +35,16 @@ app.get('/airports', async(req, res) => {
    const airports =  await Airport.find({});
    res.render('airports/index', { airports })
 });
+
+app.get('/airports/new', (req, res) => {
+    res.render('airports/new');
+});
+
+app.post('/airports', async (req, res) => {
+    const airport = new Airport(req.body.airport);
+    await airport.save();
+    res.redirect(`/airports/${airport._id}`);
+})
 
 app.get('/airports/:id', async (req, res) => {
     const airport = await Airport.findById(req.params.id)
