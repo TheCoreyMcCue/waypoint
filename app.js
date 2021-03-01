@@ -35,7 +35,8 @@ app.get('/airports', async(req, res) => {
 });
 
 app.get('/airports/:id', async (req, res) => {
-    res.render('airports/show')
+    const airport = await Airport.findById(req.params.id)
+    res.render('airports/show', { airport });
 });
 
 app.listen(3000, () => {

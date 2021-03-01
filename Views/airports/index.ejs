@@ -10,7 +10,7 @@
     <h1>All Airports!!</h1>
     <ul>
         <% for (let airport of airports) { %>
-            <li><a href="<%= airport._id %>"><%= airport.name %></a></li>
+            <li><a href="/airports/<%= airport._id %>"><%= airport.name %></a></li>
         <% } %>
     </ul>
     
