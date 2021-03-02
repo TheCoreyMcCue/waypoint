@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const Airport = require('./models/airport');
+const methodOverride = require('method-override');
 
 mongoose.connect('mongodb://localhost:27017/waypoint', {
     useNewUrlParser: true,
@@ -21,6 +22,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
     res.render('home');
@@ -49,6 +51,23 @@ app.post('/airports', async (req, res) => {
 app.get('/airports/:id', async (req, res) => {
     const airport = await Airport.findById(req.params.id)
     res.render('airports/show', { airport });
+});
+
+app.get('/airports/:id/edit', async (req, res) => {
+    const airport = await Airport.findById(req.params.id)
+    res.render('airports/edit', { airport });
+});
+
+app.put('/airports/:id', async(req, res) => {
+    const { id } = req.params;
+    const airport = await Airport.findByIdAndUpdate(id, { ...req.body.airport });
+    res.redirect(`/airports/${airport._id}`);
+});
+
+app.delete('/airports/:id', async(req, res) => {
+    const { id } = req.params;
+    await Airport.findByIdAndDelete(id);
+    res.redirect('/airports');
 });
 
 app.listen(3000, () => {

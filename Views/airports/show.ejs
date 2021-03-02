@@ -10,6 +10,10 @@
     <h1><%= airport.name %></h1>
     <h2><%= airport.location %></h2>
     <h2><%= airport.description %></h2>
+    <a href="/airports/<%= airport._id %>/edit">Edit</a>
+    <form action="/airports/<%= airport._id %>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
     <p><a href="/airports">All Airports</a></p>
 </body>
 </html>

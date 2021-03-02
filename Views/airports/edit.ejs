@@ -1,0 +1,23 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit an airport</title>
+</head>
+<body>
+    <h1>Edit an airport</h1>
+    <form action="/airports/<%= airport._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="name">Airport Name</label>
+            <input type="text" name="airport[name]" id="name" placeholder="Thun Field" value="<%= airport.name %>">
+        </div>
+        <div>
+            <label for="location">Airport location</label>
+            <input type="text" name="airport[location]" id="location" placeholder="" value="<%= airport.location %>">
+        </div>
+        <button>Edit Airport</button>
+    </form>
+
+    <p><a href="/airports/<%= airport._id %>">Back to airport</a></p>
+</body>
+</html>
