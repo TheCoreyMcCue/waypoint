@@ -1,7 +1,8 @@
 <% layout('layouts/boilerplate') %>
     <h1><%= airport.name %></h1>
     <h2><%= airport.location %></h2>
-    <h2><%= airport.description %></h2>
+    <img src="https://images.unsplash.com/photo-1545460463-afdcfb3a3e53?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" class="img-thumbnail" alt="">
+    <p><%= airport.description %></p>
     <a href="/airports/<%= airport._id %>/edit">Edit</a>
     <form action="/airports/<%= airport._id %>?_method=DELETE" method="POST">
         <button>Delete</button>
