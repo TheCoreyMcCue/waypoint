@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <% layout('layouts/boilerplate') %>
+<div class="row">
+    <h1 class="text-center">Add an Airport</h1>
+    <div class="col-6 offset-3">
+        <form action="/airports" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="name">Airport Name</label>
+                <input type="text" class="form-control" name="airport[name]" id="name" placeholder="Logan International Airport">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Airport location</label>
+                <input type="text" class="form-control" name="airport[location]" id="location" placeholder="Boston, MA">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input type="text" class="form-control" name="airport[image]" id="image" placeholder="Boston, MA">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add Airport</button>
+            </div>
+        </form>
 
-<h1>Add an Airport</h1>
-<form action="/airports" method="POST">
-    <div>
-        <label for="name">Airport Name</label>
-        <input type="text" name="airport[name]" id="name" placeholder="Thun Field">
+        <p><a href="/airports">Back to all airports</a></p>
     </div>
-    <div>
-        <label for="location">Airport location</label>
-        <input type="text" name="airport[location]" id="location" placeholder="Puyallup, WA">
-    </div>
-    <button>Add Airport</button>
-</form>
-
-<p><a href="/airports">Back to all airports</a></p>
+</div>

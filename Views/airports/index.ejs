@@ -1,8 +1,24 @@
 <% layout('layouts/boilerplate') %>
 <h1>All Airports</h1>
     <p><a href="/airports/new">Add Airport</a></p>
-    <ul>
+
         <% for (let airport of airports) { %>
-            <li><a href="/airports/<%= airport._id %>"><%= airport.name %></a></li>
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="https://images.unsplash.com/photo-1545460463-afdcfb3a3e53?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" class="img-fluid" alt="">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"> <%= airport.name %> </h5>
+                            <p class="card-text"> <%= airport.description %> </p>
+                            <p class="card-text">
+                             <small class="text-muted"> <%= airport.location %> </small>
+                            </p>
+                            <a href="/airports/<%= airport._id %>" class="btn btn-primary">View <%= airport.name %></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <li><a href="/airports/<%= airport._id %>"><%= airport.name %></a></li> -->
         <% } %>
-    </ul>
