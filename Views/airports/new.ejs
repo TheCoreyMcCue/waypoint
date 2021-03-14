@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
 <% layout('layouts/boilerplate') %>
 <div class="row">
     <h1 class="text-center">Add an Airport</h1>
@@ -18,10 +16,13 @@
                 <input type="text" class="form-control" name="airport[image]" id="image" placeholder="Boston, MA">
             </div>
             <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea type="text" class="form-control" name="airport[description]" id="description"></textarea>
+            </div>
+            <div class="mb-3">
                 <button class="btn btn-success">Add Airport</button>
             </div>
         </form>
-
         <p><a href="/airports">Back to all airports</a></p>
     </div>
 </div>

@@ -1,15 +1,29 @@
 <% layout('layouts/boilerplate') %>
-<h1>Edit an airport</h1>
-<form action="/airports/<%= airport._id %>?_method=PUT" method="POST">
-    <div>
-        <label for="name">Airport Name</label>
-        <input type="text" name="airport[name]" id="name" placeholder="Thun Field" value="<%= airport.name %>">
-    </div>
-    <div>
-        <label for="location">Airport location</label>
-        <input type="text" name="airport[location]" id="location" placeholder="" value="<%= airport.location %>">
-    </div>
-    <button>Edit Airport</button>
-</form>
 
-<p><a href="/airports/<%= airport._id %>">Back to airport</a></p>
+<div class="row">
+    <h1 class="text-center">Edit Airport</h1>
+    <div class="col-6 offset-3">
+        <form action="/airports/<%= airport._id %>?_method=PUT" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="name">Airport Name</label>
+                <input type="text" class="form-control" name="airport[name]" id="name" placeholder="Logan International Airport" value="<%= airport.name %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Airport location</label>
+                <input type="text" class="form-control" name="airport[location]" id="location" placeholder="Boston, MA" value="<%= airport.location %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input type="text" class="form-control" name="airport[image]" id="image" value="<%= airport.image %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea type="text" class="form-control" name="airport[description]" id="description"><%= airport.description %></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-info">Update Airport</button>
+            </div>
+        </form>
+        <p><a href="/airports/<%= airport._id %>">Back to airport</a></p>
+    </div>
+</div>
