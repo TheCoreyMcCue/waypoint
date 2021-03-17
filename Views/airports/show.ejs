@@ -6,7 +6,9 @@
             <img src="<%= airport.image %>" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title"><%= airport.name %></h5>
+              <h6 class="card-title"><%= airport.icao.toUpperCase() %></h6>
               <p class="card-text">Landing Fee: $<%= airport.landingFee %></p>
+              <p class="card-text">Tie Down Fee: $<%= airport.tieDown %> per night</p>
               <p class="card-text"><%= airport.description %></p>
             </div>
             <ul class="list-group list-group-flush">

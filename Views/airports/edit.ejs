@@ -9,8 +9,30 @@
                 <input type="text" class="form-control" name="airport[name]" id="name" placeholder="Logan International Airport" value="<%= airport.name %>">
             </div>
             <div class="mb-3">
+                <label class="form-label" for="icao">Airport ICAO code</label>
+                <input type="text" class="form-control" name="airport[icao]" id="icao" placeholder="KBOS" name="airport[icao]" value="<%= airport.icao %>">
+            </div>
+            <div class="mb-3">
                 <label class="form-label" for="location">Airport location</label>
                 <input type="text" class="form-control" name="airport[location]" id="location" placeholder="Boston, MA" value="<%= airport.location %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="landingFee">Landing Fee</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="landingFee">$</span>
+                    </div>
+                    <input type="text" class="form-control" id="landingFee" placeholder="$35" aria-label="landingFee" aria-describedby="" name="airport[landingFee]" value="<%= airport.landingFee %>">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="tieDown">Tie Down Fee</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="tieDown">$</span>
+                    </div>
+                    <input type="text" class="form-control" id="tieDown" placeholder="$5" aria-label="tieDown" aria-describedby="" name="airport[tieDown]" value="<%= airport.tieDown %>">
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
