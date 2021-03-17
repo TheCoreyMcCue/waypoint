@@ -2,18 +2,27 @@
 <div class="row">
     <h1 class="text-center">Add an Airport</h1>
     <div class="col-6 offset-3">
-        <form action="/airports" method="POST">
+        <form action="/airports" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-label" for="name">Airport Name</label>
-                <input type="text" class="form-control" name="airport[name]" id="name" placeholder="Logan International Airport">
+                <input type="text" class="form-control" name="airport[name]" id="name" placeholder="Logan International Airport" required>
+                <div class="invalid-feedback">
+                    Please provide a name for your airport
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Airport location</label>
-                <input type="text" class="form-control" name="airport[location]" id="location" placeholder="Boston, MA">
+                <input type="text" class="form-control" name="airport[location]" id="location" placeholder="Boston, MA" required>
+                <div class="invalid-feedback">
+                    Please provide the airport location
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="icao">Airport ICAO code</label>
-                <input type="text" class="form-control" name="airport[icao]" id="icao" placeholder="KBOS" name="airport[icao]">
+                <input type="text" class="form-control" name="airport[icao]" id="icao" placeholder="KBOS" name="airport[icao]" required>
+                <div class="invalid-feedback">
+                    Please provide the airport ICAO code
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="landingFee">Landing Fee</label>
@@ -21,7 +30,10 @@
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="landingFee">$</span>
                     </div>
-                    <input type="text" class="form-control" id="landingFee" placeholder="$35" aria-label="landingFee" aria-describedby="" name="airport[landingFee]">
+                    <input type="text" class="form-control" id="landingFee" placeholder="$35" aria-label="landingFee" aria-describedby="" name="airport[landingFee]" required>
+                    <div class="invalid-feedback">
+                        Please provide the landing fee (if none please type 0)
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
@@ -30,16 +42,25 @@
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="tieDown">$</span>
                     </div>
-                    <input type="text" class="form-control" id="tieDown" placeholder="$5" aria-label="tieDown" aria-describedby="" name="airport[tieDown]">
+                    <input type="text" class="form-control" id="tieDown" placeholder="$5" aria-label="tieDown" aria-describedby="" name="airport[tieDown]" required>
+                    <div class="invalid-feedback">
+                        Please provide the tie down fee (if none please type 0)
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
-                <input type="text" class="form-control" name="airport[image]" id="image" placeholder="Boston, MA">
+                <input type="text" class="form-control" name="airport[image]" id="image" placeholder="Boston, MA" required>
+                <div class="invalid-feedback">
+                    Please provide at least 1 image URL
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea type="text" class="form-control" name="airport[description]" id="description"></textarea>
+                <textarea type="text" class="form-control" name="airport[description]" id="description" required></textarea>
+                <div class="invalid-feedback">
+                    Please provide a description
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Add Airport</button>
@@ -48,3 +69,27 @@
         <p><a href="/airports">Back to all airports</a></p>
     </div>
 </div>
+
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.validated-form')
+
+    // Loop over them and prevent submission
+    Array.from(forms)
+        .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+        })
+    })()
+</script>
