@@ -2,11 +2,21 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const Joi = require('joi');
+const {airportSchema} = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const Airport = require('./models/airport');
 const methodOverride = require('method-override');
+
+const validateAirport = (req, res, next) => {
+    const { error } = airportSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(result.error.details, 400)
+    } else {
+        next();
+    }
+}
 
 mongoose.connect('mongodb://localhost:27017/waypoint', {
     useNewUrlParser: true,
@@ -47,25 +57,8 @@ app.get('/airports/new', (req, res) => {
     res.render('airports/new');
 });
 
-app.post('/airports', catchAsync(async (req, res, next) => {
+app.post('/airports', validateAirport, catchAsync(async (req, res, next) => {
     // if(!req.body.airport) throw new ExpressError('Invalid Airport Data', 400);
-    const airportSchema = Joi.object({
-        airport: Joi.object({
-            name: Joi.string().required(),
-            landingFee: Joi.number().required().min(0),
-            tieDown: Joi.number().required().min(0),
-            icao: Joi.string().required(),
-            image: Joi.string().required(),
-            location: Joi.string().required(),
-            description: Joi.string().required()
-        }).required()
-    })
-    const { error } = airportSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(result.error.details, 400)
-    }
-    console.log(result);
     const airport = new Airport(req.body.airport);
     await airport.save();
     res.redirect(`/airports/${airport._id}`);
@@ -81,7 +74,7 @@ app.get('/airports/:id/edit', catchAsync(async (req, res) => {
     res.render('airports/edit', { airport });
 }));
 
-app.put('/airports/:id', catchAsync(async(req, res) => {
+app.put('/airports/:id', validateAirport, catchAsync(async(req, res) => {
     const { id } = req.params;
     const airport = await Airport.findByIdAndUpdate(id, { ...req.body.airport });
     res.redirect(`/airports/${airport._id}`);
