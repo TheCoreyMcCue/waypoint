@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
+const ExpressError = require('./utils/ExpressError');
 const Airport = require('./models/airport');
 const methodOverride = require('method-override');
 
@@ -46,6 +47,7 @@ app.get('/airports/new', (req, res) => {
 });
 
 app.post('/airports', catchAsync(async (req, res, next) => {
+    if(!req.body.airport) throw new ExpressError('Invalid Airport Data', 400);
     const airport = new Airport(req.body.airport);
     await airport.save();
     res.redirect(`/airports/${airport._id}`);
@@ -73,7 +75,13 @@ app.delete('/airports/:id', catchAsync(async(req, res) => {
     res.redirect('/airports');
 }));
 
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Cessna Titan Error (404)', 404))
+})
+
 app.use((err, req, res, next) => {
+    const {statusCode = 500, message = 'Clearance denied'} = err;
+    res.status(statusCode).send(message);
     res.send('no fly zone')
 });
 
