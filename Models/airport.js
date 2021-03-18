@@ -8,7 +8,13 @@ const AirportSchema = new Schema({
     location: String,
     icao: String,
     landingFee: Number,
-    tieDown: Number
+    tieDown: Number,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 });
 
 module.exports = mongoose.model('Airport', AirportSchema);
