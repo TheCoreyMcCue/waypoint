@@ -3,18 +3,27 @@
 <div class="row">
     <h1 class="text-center">Edit Airport</h1>
     <div class="col-6 offset-3">
-        <form action="/airports/<%= airport._id %>?_method=PUT" method="POST">
+        <form action="/airports/<%= airport._id %>?_method=PUT" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-label" for="name">Airport Name</label>
-                <input type="text" class="form-control" name="airport[name]" id="name" placeholder="Logan International Airport" value="<%= airport.name %>">
+                <input type="text" class="form-control" name="airport[name]" id="name" placeholder="Logan International Airport" value="<%= airport.name %>" required>
+                <div class="invalid-feedback">
+                    Please provide a name for your airport
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="icao">Airport ICAO code</label>
-                <input type="text" class="form-control" name="airport[icao]" id="icao" placeholder="KBOS" name="airport[icao]" value="<%= airport.icao %>">
+                <input type="text" class="form-control" name="airport[icao]" id="icao" placeholder="KBOS" name="airport[icao]" value="<%= airport.icao %>" required>
+                <div class="invalid-feedback">
+                    Please provide the airport ICAO code
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Airport location</label>
-                <input type="text" class="form-control" name="airport[location]" id="location" placeholder="Boston, MA" value="<%= airport.location %>">
+                <input type="text" class="form-control" name="airport[location]" id="location" placeholder="Boston, MA" value="<%= airport.location %>" required>
+                <div class="invalid-feedback">
+                    Please provide the airport location
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="landingFee">Landing Fee</label>
@@ -22,7 +31,10 @@
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="landingFee">$</span>
                     </div>
-                    <input type="text" class="form-control" id="landingFee" placeholder="$35" aria-label="landingFee" aria-describedby="" name="airport[landingFee]" value="<%= airport.landingFee %>">
+                    <input type="text" class="form-control" id="landingFee" placeholder="$35" aria-label="landingFee" aria-describedby="" name="airport[landingFee]" value="<%= airport.landingFee %>" required>
+                    <div class="invalid-feedback">
+                        Please provide the landing fee (if none please type 0)
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
@@ -31,16 +43,25 @@
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="tieDown">$</span>
                     </div>
-                    <input type="text" class="form-control" id="tieDown" placeholder="$5" aria-label="tieDown" aria-describedby="" name="airport[tieDown]" value="<%= airport.tieDown %>">
+                    <input type="text" class="form-control" id="tieDown" placeholder="$5" aria-label="tieDown" aria-describedby="" name="airport[tieDown]" value="<%= airport.tieDown %>" required>
+                    <div class="invalid-feedback">
+                        Please provide the tie down fee (if none please type 0)
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
-                <input type="text" class="form-control" name="airport[image]" id="image" value="<%= airport.image %>">
+                <input type="text" class="form-control" name="airport[image]" id="image" value="<%= airport.image %>" required>
+                <div class="invalid-feedback">
+                    Please provide at least 1 image URL
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea type="text" class="form-control" name="airport[description]" id="description"><%= airport.description %></textarea>
+                <textarea type="text" class="form-control" name="airport[description]" id="description" required><%= airport.description %></textarea>
+                <div class="invalid-feedback">
+                    Please provide a description
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-info">Update Airport</button>
