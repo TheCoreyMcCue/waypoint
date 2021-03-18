@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const Joi = require('joi');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const Airport = require('./models/airport');
@@ -47,7 +48,24 @@ app.get('/airports/new', (req, res) => {
 });
 
 app.post('/airports', catchAsync(async (req, res, next) => {
-    if(!req.body.airport) throw new ExpressError('Invalid Airport Data', 400);
+    // if(!req.body.airport) throw new ExpressError('Invalid Airport Data', 400);
+    const airportSchema = Joi.object({
+        airport: Joi.object({
+            name: Joi.string().required(),
+            landingFee: Joi.number().required().min(0),
+            tieDown: Joi.number().required().min(0),
+            icao: Joi.string().required(),
+            image: Joi.string().required(),
+            location: Joi.string().required(),
+            description: Joi.string().required()
+        }).required()
+    })
+    const { error } = airportSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(result.error.details, 400)
+    }
+    console.log(result);
     const airport = new Airport(req.body.airport);
     await airport.save();
     res.redirect(`/airports/${airport._id}`);
@@ -81,8 +99,8 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
     const {statusCode = 500, message = 'Clearance denied'} = err;
-    res.status(statusCode).render('error');
-    res.send('no fly zone')
+    if (!err.message) err.message = "It appears that you don't have that ATC clearance"
+    res.status(statusCode).render('error', { err });
 });
 
 app.listen(3000, () => {
