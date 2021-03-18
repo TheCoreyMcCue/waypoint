@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const catchAsync = require('./utils/catchAsync');
 const Airport = require('./models/airport');
 const methodOverride = require('method-override');
 
@@ -29,47 +30,51 @@ app.use(methodOverride('_method'));
 app.get('/', (req, res) => {
     res.render('home');
 });
-app.post('/makeairport', async (req, res) => {
+app.post('/makeairport', catchAsync(async (req, res) => {
     const portOne = new Airport({ name: 'Thun Field', description: 'Pierce County Airport' });
     await portOne.save();
     res.send(portOne);
-});
+}));
 
-app.get('/airports', async(req, res) => {
+app.get('/airports', catchAsync(async(req, res) => {
    const airports =  await Airport.find({});
    res.render('airports/index', { airports })
-});
+}));
 
 app.get('/airports/new', (req, res) => {
     res.render('airports/new');
 });
 
-app.post('/airports', async (req, res) => {
+app.post('/airports', catchAsync(async (req, res, next) => {
     const airport = new Airport(req.body.airport);
     await airport.save();
     res.redirect(`/airports/${airport._id}`);
-})
+}))
 
-app.get('/airports/:id', async (req, res) => {
+app.get('/airports/:id', catchAsync(async (req, res) => {
     const airport = await Airport.findById(req.params.id)
     res.render('airports/show', { airport });
-});
+}));
 
-app.get('/airports/:id/edit', async (req, res) => {
+app.get('/airports/:id/edit', catchAsync(async (req, res) => {
     const airport = await Airport.findById(req.params.id)
     res.render('airports/edit', { airport });
-});
+}));
 
-app.put('/airports/:id', async(req, res) => {
+app.put('/airports/:id', catchAsync(async(req, res) => {
     const { id } = req.params;
     const airport = await Airport.findByIdAndUpdate(id, { ...req.body.airport });
     res.redirect(`/airports/${airport._id}`);
-});
+}));
 
-app.delete('/airports/:id', async(req, res) => {
+app.delete('/airports/:id', catchAsync(async(req, res) => {
     const { id } = req.params;
     await Airport.findByIdAndDelete(id);
     res.redirect('/airports');
+}));
+
+app.use((err, req, res, next) => {
+    res.send('no fly zone')
 });
 
 app.listen(3000, () => {
