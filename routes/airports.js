@@ -42,11 +42,19 @@ router.post('/', validateAirport, catchAsync(async (req, res, next) => {
 
 router.get('/:id', catchAsync(async (req, res) => {
     const airport = await Airport.findById(req.params.id).populate('reviews');
+    if(!airport){
+        req.flash('error', 'Oops, it looks like that airport does not exist');
+        return res.redirect('/airports');
+    }
     res.render('airports/show', { airport });
 }));
 
 router.get('/:id/edit', catchAsync(async (req, res) => {
     const airport = await Airport.findById(req.params.id)
+    if(!airport){
+        req.flash('error', 'Oops, it looks like that airport does not exist');
+        return res.redirect('/airports');
+    }
     res.render('airports/edit', { airport });
 }));
 
