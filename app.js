@@ -3,7 +3,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const { airportSchema, reviewSchema } = require('./schemas.js');
-// const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const Airport = require('./models/airport');
 const Review = require('./models/review');
@@ -11,20 +10,11 @@ const airports = require('./routes/airports');
 const reviews = require('./routes/reviews');
 const methodOverride = require('method-override');
 
-// const validateReview = (req, res, next) => {
-//     const { error } = reviewSchema.validate(req.body);
-//     if (error) {
-//         const msg = error.details.map(el => el.message).join(',')
-//         throw new ExpressError(result.error.details, 400)
-//     } else {
-//         next();
-//     }
-// }
-
 mongoose.connect('mongodb://localhost:27017/waypoint', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 const db = mongoose.connection;
@@ -41,6 +31,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/airports', airports);
 app.use('/airports/:id/reviews', reviews);
 
@@ -48,22 +40,6 @@ app.use('/airports/:id/reviews', reviews);
 app.get('/', (req, res) => {
     res.render('home');
 });
-
-// app.post('/airports/:id/reviews', validateReview, catchAsync(async(req, res) => {
-//     const airport = await Airport.findById(req.params.id);
-//     const review = new Review(req.body.review);
-//     airport.reviews.push(review);
-//     await review.save();
-//     await airport.save();
-//     res.redirect(`/airports/${airport._id}`);
-// }));
-
-// app.delete('/airports/:id/reviews/:reviewId', catchAsync(async(req, res) => {
-//     const {id, reviewId} = req.params;
-//     await Airport.findByIdAndUpdate(id, {$pull: { reviews: reviewId } });
-//     await Review.findByIdAndDelete(reviewId);
-//     res.redirect(`/airports/${id}`);
-// }));
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Cessna Titan Error (404)', 404))
