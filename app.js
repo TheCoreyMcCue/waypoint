@@ -106,6 +106,13 @@ app.post('/airports/:id/reviews', validateReview, catchAsync(async(req, res) => 
     res.redirect(`/airports/${airport._id}`);
 }));
 
+app.delete('/airports/:id/reviews/:reviewId', catchAsync(async(req, res) => {
+    const {id, reviewId} = req.params;
+    await Airport.findByIdAndUpdate(id, {$pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/airports/${id}`);
+}));
+
 app.all('*', (req, res, next) => {
     next(new ExpressError('Cessna Titan Error (404)', 404))
 });
