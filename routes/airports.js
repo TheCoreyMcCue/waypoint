@@ -36,6 +36,7 @@ router.post('/', validateAirport, catchAsync(async (req, res, next) => {
     // if(!req.body.airport) throw new ExpressError('Invalid Airport Data', 400);
     const airport = new Airport(req.body.airport);
     await airport.save();
+    req.flash('success', 'Your airport has been successfully added!');
     res.redirect(`/airports/${airport._id}`);
 }))
 
