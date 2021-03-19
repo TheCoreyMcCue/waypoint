@@ -76,7 +76,7 @@ app.post('/airports', validateAirport, catchAsync(async (req, res, next) => {
 }))
 
 app.get('/airports/:id', catchAsync(async (req, res) => {
-    const airport = await Airport.findById(req.params.id)
+    const airport = await Airport.findById(req.params.id).populate('reviews');
     res.render('airports/show', { airport });
 }));
 
