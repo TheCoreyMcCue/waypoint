@@ -1,27 +1,39 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="row">
-    <div class="col-6 offset-3">
-        <div class="card">
-            <img src="<%= airport.image %>" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title"><%= airport.name %></h5>
-              <h6 class="card-title"><%= airport.icao.toUpperCase() %></h6>
-              <p class="card-text">Landing Fee: $<%= airport.landingFee %></p>
-              <p class="card-text">Tie Down Fee: $<%= airport.tieDown %> per night</p>
-              <p class="card-text"><%= airport.description %></p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item text-muted"><%= airport.location %></li>
-              <!-- <li class="list-group-item">A second item</li> -->
-              <!-- <li class="list-group-item">A third item</li> -->
-            </ul>
-            <div class="card-body">
-                <a href="/airports/<%= airport._id %>/edit" class="card-link btn btn-warning">Edit</a>
-                <form class="d-inline" action="/airports/<%= airport._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-          </div>
+  <div class="col-6 offset-3">
+    <div class="card">
+      <img src="<%= airport.image %>" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"><%= airport.name %></h5>
+        <h6 class="card-title"><%= airport.icao.toUpperCase() %></h6>
+        <p class="card-text">Landing Fee: $<%= airport.landingFee %></p>
+        <p class="card-text">Tie Down Fee: $<%= airport.tieDown %> per night</p>
+        <p class="card-text"><%= airport.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted"><%= airport.location %></li>
+        <!-- <li class="list-group-item">A second item</li> -->
+        <!-- <li class="list-group-item">A third item</li> -->
+      </ul>
+      <div class="card-body">
+          <a href="/airports/<%= airport._id %>/edit" class="card-link btn btn-warning">Edit</a>
+          <form class="d-inline" action="/airports/<%= airport._id %>?_method=DELETE" method="POST">
+              <button class="btn btn-danger">Delete</button>
+          </form>
+      </div>
     </div>
+    <h2>Please Review <%= airport.name %></h2>
+    <form action="" class="mb-3">
+      <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <input type="range" class="form-range" min="1" max="5" name="review[rating]" id="rating">
+      </div>
+      <div class="mb-1">
+        <label for="body" class="form-label">Review</label>
+        <textarea name="review[body]" class="form-control" id="body" cols="30" rows="4"></textarea>
+      </div>
+      <button class="btn btn-success">Submit review</button>
+    </form>
+  </div>
 </div>
