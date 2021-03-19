@@ -6,6 +6,7 @@ const {airportSchema} = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const Airport = require('./models/airport');
+const Review = require('./models/review');
 const methodOverride = require('method-override');
 
 const validateAirport = (req, res, next) => {
@@ -86,9 +87,18 @@ app.delete('/airports/:id', catchAsync(async(req, res) => {
     res.redirect('/airports');
 }));
 
+app.post('/airports/:id/reviews', catchAsync(async(req, res) => {
+    const airport = await Airport.findById(req.params.id);
+    const review = new Review(req.body.review);
+    airport.reviews.push(review);
+    await review.save();
+    await airport.save();
+    res.redirect(`/airports/${airport._id}`);
+}));
+
 app.all('*', (req, res, next) => {
     next(new ExpressError('Cessna Titan Error (404)', 404))
-})
+});
 
 app.use((err, req, res, next) => {
     const {statusCode = 500, message = 'Clearance denied'} = err;
