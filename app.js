@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const {airportSchema} = require('./schemas.js');
+const { airportSchema, reviewSchema } = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const Airport = require('./models/airport');
@@ -11,6 +11,16 @@ const methodOverride = require('method-override');
 
 const validateAirport = (req, res, next) => {
     const { error } = airportSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(result.error.details, 400)
+    } else {
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(result.error.details, 400)
@@ -87,7 +97,7 @@ app.delete('/airports/:id', catchAsync(async(req, res) => {
     res.redirect('/airports');
 }));
 
-app.post('/airports/:id/reviews', catchAsync(async(req, res) => {
+app.post('/airports/:id/reviews', validateReview, catchAsync(async(req, res) => {
     const airport = await Airport.findById(req.params.id);
     const review = new Review(req.body.review);
     airport.reviews.push(review);
