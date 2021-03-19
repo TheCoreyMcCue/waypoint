@@ -53,12 +53,15 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 router.put('/:id', validateAirport, catchAsync(async(req, res) => {
     const { id } = req.params;
     const airport = await Airport.findByIdAndUpdate(id, { ...req.body.airport });
+    req.flash('success', `Successfully updated ${airport.name}`);
     res.redirect(`/airports/${airport._id}`);
 }));
 
 router.delete('/:id', catchAsync(async(req, res) => {
     const { id } = req.params;
     await Airport.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted airport');
+
     res.redirect('/airports');
 }));
 
