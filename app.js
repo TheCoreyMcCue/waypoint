@@ -2,13 +2,12 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const { airportSchema, reviewSchema } = require('./schemas.js');
+const session = require('express-session');
 const ExpressError = require('./utils/ExpressError');
-const Airport = require('./models/airport');
-const Review = require('./models/review');
+const methodOverride = require('method-override');
+
 const airports = require('./routes/airports');
 const reviews = require('./routes/reviews');
-const methodOverride = require('method-override');
 
 mongoose.connect('mongodb://localhost:27017/waypoint', {
     useNewUrlParser: true,
@@ -32,6 +31,18 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+const sessionConfig = {
+    secret: 'notagoodsecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig))
 
 app.use('/airports', airports);
 app.use('/airports/:id/reviews', reviews);
