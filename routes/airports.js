@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const Airport = require('../models/airport');
 const { airportSchema } = require('../schemas.js');
+const { isLoggedIn } = require('../middleware');
 
 
 const validateAirport = (req, res, next) => {
@@ -28,17 +29,17 @@ router.get('/', catchAsync(async(req, res) => {
    res.render('airports/index', { airports })
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('airports/new');
 });
 
-router.post('/', validateAirport, catchAsync(async (req, res, next) => {
+router.post('/', isLoggedIn, validateAirport, catchAsync(async (req, res, next) => {
     // if(!req.body.airport) throw new ExpressError('Invalid Airport Data', 400);
     const airport = new Airport(req.body.airport);
     await airport.save();
     req.flash('success', 'Your airport has been successfully added!');
     res.redirect(`/airports/${airport._id}`);
-}))
+}));
 
 router.get('/:id', catchAsync(async (req, res) => {
     const airport = await Airport.findById(req.params.id).populate('reviews');
@@ -49,7 +50,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('airports/show', { airport });
 }));
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const airport = await Airport.findById(req.params.id)
     if(!airport){
         req.flash('error', 'Oops, it looks like that airport does not exist');
@@ -58,14 +59,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
     res.render('airports/edit', { airport });
 }));
 
-router.put('/:id', validateAirport, catchAsync(async(req, res) => {
+router.put('/:id', isLoggedIn, validateAirport, catchAsync(async(req, res) => {
     const { id } = req.params;
     const airport = await Airport.findByIdAndUpdate(id, { ...req.body.airport });
     req.flash('success', `Successfully updated ${airport.name}`);
     res.redirect(`/airports/${airport._id}`);
 }));
 
-router.delete('/:id', catchAsync(async(req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async(req, res) => {
     const { id } = req.params;
     await Airport.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted airport');
