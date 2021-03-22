@@ -10,6 +10,10 @@ const AirportSchema = new Schema({
     icao: String,
     landingFee: Number,
     tieDown: Number,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,

@@ -42,7 +42,8 @@ router.post('/', isLoggedIn, validateAirport, catchAsync(async (req, res, next) 
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
-    const airport = await Airport.findById(req.params.id).populate('reviews');
+    const airport = await Airport.findById(req.params.id).populate('reviews').populate('author');
+    console.log(airport)
     if(!airport){
         req.flash('error', 'Oops, it looks like that airport does not exist');
         return res.redirect('/airports');
