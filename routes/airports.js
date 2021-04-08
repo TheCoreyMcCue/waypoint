@@ -14,8 +14,18 @@ const validateAirport = (req, res, next) => {
         throw new ExpressError(result.error.details, 400)
     } else {
         next();
-    }
-}
+    };
+};
+
+const isAuthor = async(req, res, next) => {
+    const { id } = req.params;
+    const airport = await Airport.findById(id);
+    if (!airport.author.equals(req.user._id)) {
+        req.flash('error', 'No fly zone!');
+        return res.redirect(`/airports/${id}`);
+    };
+    next();
+};
 
 
 router.post('/makeairport', catchAsync(async (req, res) => {
@@ -52,8 +62,9 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('airports/show', { airport });
 }));
 
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
-    const airport = await Airport.findById(req.params.id)
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const airport = await Airport.findById(id);
     if(!airport){
         req.flash('error', 'Oops, it looks like that airport does not exist');
         return res.redirect('/airports');
@@ -61,14 +72,13 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     res.render('airports/edit', { airport });
 }));
 
-router.put('/:id', isLoggedIn, validateAirport, catchAsync(async(req, res) => {
-    const { id } = req.params;
+router.put('/:id', isLoggedIn, isAuthor, validateAirport, catchAsync(async(req, res) => {
     const airport = await Airport.findByIdAndUpdate(id, { ...req.body.airport });
     req.flash('success', `Successfully updated ${airport.name}`);
     res.redirect(`/airports/${airport._id}`);
 }));
 
-router.delete('/:id', isLoggedIn, catchAsync(async(req, res) => {
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async(req, res) => {
     const { id } = req.params;
     await Airport.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted airport');
