@@ -3,30 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const Airport = require('../models/airport');
-const { airportSchema } = require('../schemas.js');
-const { isLoggedIn } = require('../middleware');
-
-
-const validateAirport = (req, res, next) => {
-    const { error } = airportSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(result.error.details, 400)
-    } else {
-        next();
-    };
-};
-
-const isAuthor = async(req, res, next) => {
-    const { id } = req.params;
-    const airport = await Airport.findById(id);
-    if (!airport.author.equals(req.user._id)) {
-        req.flash('error', 'No fly zone!');
-        return res.redirect(`/airports/${id}`);
-    };
-    next();
-};
-
+const { isLoggedIn, validateAirport, isAuthor } = require('../middleware');
 
 router.post('/makeairport', catchAsync(async (req, res) => {
     const portOne = new Airport({ name: 'Thun Field', description: 'Pierce County Airport' });
@@ -73,6 +50,7 @@ router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
 }));
 
 router.put('/:id', isLoggedIn, isAuthor, validateAirport, catchAsync(async(req, res) => {
+    const { id } = req.params;
     const airport = await Airport.findByIdAndUpdate(id, { ...req.body.airport });
     req.flash('success', `Successfully updated ${airport.name}`);
     res.redirect(`/airports/${airport._id}`);
