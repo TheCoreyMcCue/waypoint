@@ -10,18 +10,21 @@
         <p class="card-text">Landing Fee: $<%= airport.landingFee %></p>
         <p class="card-text">Tie Down Fee: $<%= airport.tieDown %> per night</p>
         <p class="card-text"><%= airport.description %></p>
+        <p class="card-text">Submitted by <%= airport.author.username %></p>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted"><%= airport.location %></li>
         <!-- <li class="list-group-item">A second item</li> -->
         <!-- <li class="list-group-item">A third item</li> -->
       </ul>
+    <% if (currentUser && airport.author.equals(currentUser._id)) { %> 
       <div class="card-body">
           <a href="/airports/<%= airport._id %>/edit" class="card-link btn btn-warning">Edit</a>
           <form class="d-inline" action="/airports/<%= airport._id %>?_method=DELETE" method="POST">
               <button class="btn btn-danger">Delete</button>
           </form>
       </div>
+    <% } %>  
     </div>
   </div>
   <div class="col-6">
@@ -45,7 +48,7 @@
         <div class="card-body">
           <h5 class="card-title">Rating: <%= review.rating %> </h5>
           <p class="card-text">Review: <%= review.body %> </p>
-          <form action="/airports/<%=airport._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+          <form action="/airports/<%= airport._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
             <button class="btn btn-sm btn-danger">Delete</button>
           </form>
         </div>
