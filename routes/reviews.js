@@ -2,6 +2,8 @@ const express = require('express');
 const airport = require('../models/airport');
 const router = express.Router({ mergeParams: true });
 
+const { validateReview } = require('../middleware');
+
 const Airport = require('../models/airport');
 const Review = require('../models/review');
 const { reviewSchema } = require('../schemas.js');
@@ -9,15 +11,6 @@ const { reviewSchema } = require('../schemas.js');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(result.error.details, 400)
-    } else {
-        next();
-    }
-};
 
 
 router.post('/', validateReview, catchAsync(async(req, res) => {
