@@ -44,6 +44,9 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateAirport = async(req, res) => {
     const { id } = req.params;
     const airport = await Airport.findByIdAndUpdate(id, { ...req.body.airport });
+    const imgs = req.files.map(f => ({url: f.path, filename: f.filename}));
+    airport.images.push(...imgs);
+    await airport.save();
     req.flash('success', `Successfully updated ${airport.name}`);
     res.redirect(`/airports/${airport._id}`);
 };

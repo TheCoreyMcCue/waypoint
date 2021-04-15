@@ -25,7 +25,7 @@ router.get('/:id', catchAsync(airports.showAirport));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(airports.renderEditForm));
 
-router.put('/:id', isLoggedIn, isAuthor, validateAirport, catchAsync(airports.updateAirport));
+router.put('/:id', isLoggedIn, isAuthor, upload.array('image'), validateAirport, catchAsync(airports.updateAirport));
 
 router.delete('/:id', isLoggedIn, isAuthor, catchAsync(airports.delete));
 
