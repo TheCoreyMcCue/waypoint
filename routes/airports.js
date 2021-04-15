@@ -18,11 +18,8 @@ router.get('/', catchAsync(async(req, res) => {
 
 router.get('/new', isLoggedIn, airports.renderNewForm);
 
-// router.post('/', isLoggedIn, validateAirport, catchAsync(airports.createAirport));
-router.post('/', upload.array('image'), (req, res) => {
-   console.log(req.body, req.files);
-   res.send("It worked!");
-})
+router.post('/', isLoggedIn, upload.array('image'), validateAirport, catchAsync(airports.createAirport));
+
 
 router.get('/:id', catchAsync(airports.showAirport));
 

@@ -9,8 +9,10 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    folder: 'beyondfbo',
-    allowedFormats: ['png', 'jpeg', 'jpg']
+    params: {
+        folder: 'beyondfbo',
+        allowedFormats: ['png', 'jpeg', 'jpg']
+    }
 });
 
 module.exports = {

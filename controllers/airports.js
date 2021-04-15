@@ -11,8 +11,8 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createAirport = async (req, res, next) => {
-    // if(!req.body.airport) throw new ExpressError('Invalid Airport Data', 400);
     const airport = new Airport(req.body.airport);
+    airport.images = req.files.map(f => ({url: f.path, filename: f.filename}));
     airport.author = req.user._id;
     await airport.save();
     req.flash('success', 'Your airport has been successfully added!');

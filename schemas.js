@@ -6,7 +6,7 @@ module.exports.airportSchema = Joi.object({
         landingFee: Joi.number().required().min(0),
         tieDown: Joi.number().required().min(0),
         icao: Joi.string().required(),
-        image: Joi.string().required(),
+        // image: Joi.string().required(),
         location: Joi.string().required(),
         description: Joi.string().required()
     }).required()
