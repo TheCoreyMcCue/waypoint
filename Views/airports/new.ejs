@@ -48,14 +48,10 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="mb-3">
-                <label class="form-label" for="image">Image Url</label>
-                <input type="text" class="form-control" name="airport[image]" id="image" required>
-                <div class="invalid-feedback">
-                    Please provide at least 1 image URL
-                </div>
-            </div> -->
-            <input type="file" name="image" id="" multiple>
+            <div class="mb-3">
+                <label for="airportImage" class="form-label">Upload Image(s)</label>
+                <input class="form-control" type="file" id="airportImage" name="image" multiple>
+            </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
                 <textarea type="text" class="form-control" name="airport[description]" id="description" required></textarea>
