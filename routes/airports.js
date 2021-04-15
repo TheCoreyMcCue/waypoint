@@ -5,6 +5,8 @@ const ExpressError = require('../utils/ExpressError');
 const Airport = require('../models/airport');
 const airports = require('../controllers/airports');
 const { isLoggedIn, validateAirport, isAuthor } = require('../middleware');
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
 
 router.post('/makeairport', catchAsync(airports.index));
 
@@ -15,7 +17,11 @@ router.get('/', catchAsync(async(req, res) => {
 
 router.get('/new', isLoggedIn, airports.renderNewForm);
 
-router.post('/', isLoggedIn, validateAirport, catchAsync(airports.createAirport));
+// router.post('/', isLoggedIn, validateAirport, catchAsync(airports.createAirport));
+router.post('/', upload.single('image'), (req, res) => {
+   console.log(req.body, req.file);
+   res.send("It worked!");
+})
 
 router.get('/:id', catchAsync(airports.showAirport));
 
