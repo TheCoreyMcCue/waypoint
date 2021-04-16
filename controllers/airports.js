@@ -1,4 +1,5 @@
 const Airport = require('../models/airport');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const portOne = new Airport({ name: 'Thun Field', description: 'Pierce County Airport' });
@@ -47,6 +48,12 @@ module.exports.updateAirport = async(req, res) => {
     const imgs = req.files.map(f => ({url: f.path, filename: f.filename}));
     airport.images.push(...imgs);
     await airport.save();
+    if(req.body.deleteImages) {
+        for(let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await airport.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
+    };
     req.flash('success', `Successfully updated ${airport.name}`);
     res.redirect(`/airports/${airport._id}`);
 };

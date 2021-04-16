@@ -64,7 +64,7 @@
                 <% airport.images.forEach(function(img, i) { %> 
                     <img src="<%= img.url %>" class="img-thumbnail" alt="">
                     <div class="form-check mb-2">
-                        <input type="checkbox" class="form-check-input" id="image<%= i %>">
+                        <input type="checkbox" class="form-check-input" id="image<%= i %>" name="deleteImages[]" value="<%= img.filename %>">
                         <label for="image<%= i %>" class="form-check-label">Delete</label>
                     </div>
                 <% }) %> 
