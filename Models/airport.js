@@ -3,13 +3,16 @@ const mongoose = require('mongoose');
 const Review = require('./review');
 const Schema = mongoose.Schema;
 
+const ImageSchema = new Schema({
+     url: String,
+        filename: String
+})
+ImageSchema.virtual('thumbnail').get(function() {
+    return this.url.replace('/upload', '/upload/w_200');
+})
 const AirportSchema = new Schema({
     name: String,
-    images: [
-        { url: String,
-          filename: String
-        }
-    ],
+    images: [ImageSchema],
     description: String,
     location: String,
     icao: String,
