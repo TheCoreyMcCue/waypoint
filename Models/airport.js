@@ -47,7 +47,8 @@ const AirportSchema = new Schema({
 
 AirportSchema.virtual('properties.popUpMarkup').get(function() {
     return `<strong><a href="/airports/${this._id}">${this.name}</a></strong>
-    <p>${this.icao.toUpperCase()}
+    <p>${this.icao.toUpperCase()}</p>
+    <p>Tie down: $${this.tieDown}/night</p>
     <p>Gas Price: Coming Soon...</p>`;
     
 });
