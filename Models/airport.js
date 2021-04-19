@@ -12,6 +12,8 @@ ImageSchema.virtual('thumbnail').get(function() {
     return this.url.replace('/upload', '/upload/w_200');
 });
 
+const opts = { toJSON: { virtuals: true } };
+
 const AirportSchema = new Schema({
     name: String,
     images: [ImageSchema],
@@ -41,6 +43,13 @@ const AirportSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts);
+
+AirportSchema.virtual('properties.popUpMarkup').get(function() {
+    return `<strong><a href="/airports/${this._id}">${this.name}</a></strong>
+    <p>${this.icao.toUpperCase()}
+    <p>Gas Price: Coming Soon...</p>`;
+    
 });
 
 AirportSchema.post('findOneAndDelete', async function(doc){
