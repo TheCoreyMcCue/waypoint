@@ -46,7 +46,7 @@
     </div>
   </div>
   <div class="col-6">
-    <div id='map' style='width: 400px; height: 300px;'></div>
+    <div id='map' class="show-map"></div>
     <% if(currentUser) { %> 
       <h2>Please Review <%= airport.name %></h2>
       <form action="/airports/<%= airport._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
