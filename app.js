@@ -26,10 +26,10 @@ const reviewRoutes = require('./routes/reviews');
 
 
 
-const localUrl = 'mongodb://localhost:27017/waypoint'
-const dbUrl = process.env.DB_URL
 
-mongoose.connect('mongodb://localhost:27017/waypoint', {
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/waypoint'
+
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -99,6 +99,8 @@ app.use(helmet({ contentSecurityPolicy: false }));
 //     }
 // }));
 
+const secret = process.env.SECRET || 'notagoodsecret'
+
 // const store = new MongoStore({
 //     url: 'mongodb://localhost:27017/waypoint',
 //     secret: 'notagoodsecret',
@@ -111,7 +113,7 @@ app.use(helmet({ contentSecurityPolicy: false }));
 const sessionConfig = {
     // store,
     name: 'session',
-    secret: 'notagoodsecret',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
