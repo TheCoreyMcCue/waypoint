@@ -1,28 +1,37 @@
 <% layout('layouts/boilerplate') %>
 
-<h1>Register</h1>
 
-<form action="/register" method="POST" class="validated-form" novalidate>
-    <div class="mb-3">
-        <label class="form-label" for="username">Username</label>
-        <input type="text" class="form-control" name="username" id="username" required>
-        <div class="invalid-feedback">
-            Please provide a username
+<div class="container d-flex justify-content-center align-items-center mt-5 testing">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="button-div">Register</h1>
+            <div class="card shadow p-5">
+                <form action="/register" method="POST" class="validated-form" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label" for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" required>
+                        <div class="invalid-feedback">
+                            Please provide a username
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" required>
+                        <div class="invalid-feedback">
+                            Please provide an email
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                        <div class="invalid-feedback">
+                            Please provide a password
+                        </div>
+                    </div>
+                    <button class="btn btn-success w-100">Register</button>
+                </form>
+                <a href="/login" class="mt-3 login-link">already a memeber?</a>
+            </div>
         </div>
     </div>
-    <div class="mb-3">
-        <label class="form-label" for="email">Email</label>
-        <input type="email" class="form-control" name="email" id="email" required>
-        <div class="invalid-feedback">
-            Please provide an email
-        </div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="password">Password</label>
-        <input type="password" class="form-control" name="password" id="password" required>
-        <div class="invalid-feedback">
-            Please provide a password
-        </div>
-    </div>
-    <button class="btn btn-success">Register</button>
-</form>
+</div>
